@@ -48,11 +48,11 @@ This project demonstrates:
 ```
 01 - Guessing Game/
 │
-├── project.js
+├── main.js
 └── README.md
 ```
 
-`project.js` contains the entire game: number generation, the guessing loop, and all feedback logic.
+`main.js` contains the entire game: number generation, the guessing loop, and all feedback logic.
 
 ## How It Works
 
@@ -72,7 +72,7 @@ git clone <your-repo-url>
 cd "01 - Guessing Game"
 ```
 
-Open `project.js`, copy its contents into your browser's developer console, and press Enter to play.
+Open `main.js`, copy its contents into your browser's developer console, and press Enter to play.
 
 ## Example Output
 
