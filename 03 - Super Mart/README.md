@@ -4,7 +4,7 @@ A console-based grocery store simulator where users browse a catalog and manage 
 
 ## Overview
 
-Super Mart displays a catalog of over 100 store items in a formatted table, then lets the user add items to a cart, view the cart, remove items, and view previously removed items — all through console prompts.
+Super Mart displays a catalog of over 100 store items in a formatted table, then lets the user add items to a cart, view the cart, remove items, and view previously removed items - all through console prompts.
 
 ## Why I Built This Project
 
@@ -86,7 +86,7 @@ Here are the are items in your cart:
 
 ## Limitations
 
-- No persistent storage — cart resets when the session ends
+- No persistent storage - cart resets when the session ends
 - No pricing, checkout, or payment flow
 - Item names must match exactly (case-sensitive)
 
