@@ -8,7 +8,7 @@ This program manages a catalog of books stored as objects, each with a title, au
 
 ## Why I Built This Project
 
-I built this to move beyond simple arrays of strings and practice working with arrays of objects — modeling real entities with multiple properties and writing functions that operate on that structured data.
+I built this to move beyond simple arrays of strings and practice working with arrays of objects - modeling real entities with multiple properties and writing functions that operate on that structured data.
 
 ## Features
 
@@ -86,7 +86,7 @@ Open `main.js`, copy its contents into your browser's developer console, and pre
 
 ## Limitations
 
-- No persistent storage — catalog resets each session
+- No persistent storage - catalog resets each session
 - No due dates or borrower tracking
 - ISBN must be entered exactly to find a book
 
