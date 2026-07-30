@@ -1,14 +1,14 @@
 # JavaScript Console Projects 🧩
 
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Projects](https://img.shields.io/badge/projects-5-informational)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Projects](https://img.shields.io/badge/projects-6-informational)
 
-**Status:** Active · **Language:** JavaScript · **License:** MIT · **Project Count:** 5 · **Environment:** Browser Console
+**Status:** Active · **Language:** JavaScript · **License:** MIT · **Project Count:** 6 · **Environment:** Browser Console
 
 ---
 
 ## Overview
 
-This repository is a collection of 5 console-based JavaScript projects, arranged from beginner to advanced. Each one was built to practice a specific set of concepts - starting with basic loops and conditionals and working up to multi-role applications with data relationships, algorithms, and admin dashboards.
+This repository is a collection of 6 console-based JavaScript projects, arranged from beginner to advanced. Each one was built to practice a specific set of concepts - starting with basic loops and conditionals and working up to multi-role applications with data relationships, algorithms, and admin dashboards.
 
 It's intended for anyone reviewing practical JavaScript ability, and for other students who want to see how a set of small ideas (todo lists, inventory trackers, booking systems) grows in complexity as more language features come into play.
 
@@ -29,18 +29,19 @@ This repository demonstrates:
 
 | Technology      | Purpose                                                      |
 | --------------- | ------------------------------------------------------------ |
-| JavaScript      | Programming language for all 5 projects                      |
+| JavaScript      | Programming language for all 6 projects                      |
 | Browser Console | Runtime environment (`prompt()`, `alert()`, `console.log()`) |
 
 ## Project Collection
 
-| #   | Project                                                          | Description                                          | Difficulty            | Concepts                     |
-| --- | ---------------------------------------------------------------- | ---------------------------------------------------- | --------------------- | ---------------------------- |
-| 1   | [Guessing Game](./01%20-%20Guessing%20Game/)                     | Console number-guessing game with high/low feedback  | Beginner              | Loops, Conditionals          |
-| 2   | [Todo List](./02%20-%20Todo%20List/)                             | Manage todo, done, and removed task lists            | Beginner              | Arrays, Loops                |
-| 3   | [Super Mart](./03%20-%20Super%20Mart/)                           | Browse a store catalog and manage a shopping cart    | Beginner              | Arrays, console.table        |
-| 4   | [Library System](./04%20-%20Library%20System/)                   | Borrow, return, and add books in a catalog           | Beginner–Intermediate | Objects, Functions           |
-| 5   | [Student Grading System](./05%20-%20Student%20Grading%20System/) | Calculates grades and prints a formatted certificate | Intermediate          | Conditionals, String Methods |
+| #   | Project                                                          | Description                                                      | Difficulty            | Concepts                     |
+| --- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------- | ---------------------------- |
+| 1   | [Guessing Game](./01%20-%20Guessing%20Game/)                     | Console number-guessing game with high/low feedback              | Beginner              | Loops, Conditionals          |
+| 2   | [Todo List](./02%20-%20Todo%20List/)                             | Manage todo, done, and removed task lists                        | Beginner              | Arrays, Loops                |
+| 3   | [Super Mart](./03%20-%20Super%20Mart/)                           | Browse a store catalog and manage a shopping cart                | Beginner              | Arrays, console.table        |
+| 4   | [Library System](./04%20-%20Library%20System/)                   | Borrow, return, and add books in a catalog                       | Beginner–Intermediate | Objects, Functions           |
+| 5   | [Student Grading System](./05%20-%20Student%20Grading%20System/) | Calculates grades and prints a formatted certificate             | Intermediate          | Conditionals, String Methods |
+| 6   | [Secure Digital Banking](./06%20-%20Secure%20Digital%20Banking/) | Multi-step login (username/password/OTP) plus account operations | Intermediate          | Nested Loops, Validation     |
 
 ## Repository Structure
 
@@ -63,7 +64,9 @@ JavaScript/
 ├── 05 - Student Grading System/
 │   ├── main.js
 │   └── README.md
-
+├── 06 - Secure Digital Banking/
+│   ├── main.js
+│   └── README.md
 ```
 
 ## How to Use
@@ -80,6 +83,7 @@ JavaScript/
 3. Super Mart
 4. Library System
 5. Student Grading System
+6. Secure Digital Banking
 
 ## Skills Demonstrated
 
@@ -96,7 +100,7 @@ JavaScript/
 
 ## Repository Statistics
 
-- **Total Projects:** 5
+- **Total Projects:** 6
 - **Language:** JavaScript
 - **Environment:** Browser Console
 - **Learning Level:** Beginner → Advanced
