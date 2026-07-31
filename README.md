@@ -1,14 +1,14 @@
 # JavaScript Console Projects 🧩
 
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Projects](https://img.shields.io/badge/projects-6-informational)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Projects](https://img.shields.io/badge/projects-7-informational)
 
-**Status:** Active · **Language:** JavaScript · **License:** MIT · **Project Count:** 6 · **Environment:** Browser Console
+**Status:** Active · **Language:** JavaScript · **License:** MIT · **Project Count:** 7 · **Environment:** Browser Console
 
 ---
 
 ## Overview
 
-This repository is a collection of 6 console-based JavaScript projects, arranged from beginner to advanced. Each one was built to practice a specific set of concepts - starting with basic loops and conditionals and working up to multi-role applications with data relationships, algorithms, and admin dashboards.
+This repository is a collection of 7 console-based JavaScript projects, arranged from beginner to advanced. Each one was built to practice a specific set of concepts - starting with basic loops and conditionals and working up to multi-role applications with data relationships, algorithms, and admin dashboards.
 
 It's intended for anyone reviewing practical JavaScript ability, and for other students who want to see how a set of small ideas (todo lists, inventory trackers, booking systems) grows in complexity as more language features come into play.
 
@@ -29,7 +29,7 @@ This repository demonstrates:
 
 | Technology      | Purpose                                                      |
 | --------------- | ------------------------------------------------------------ |
-| JavaScript      | Programming language for all 6 projects                      |
+| JavaScript      | Programming language for all 7 projects                      |
 | Browser Console | Runtime environment (`prompt()`, `alert()`, `console.log()`) |
 
 ## Project Collection
@@ -42,6 +42,7 @@ This repository demonstrates:
 | 4   | [Library System](./04%20-%20Library%20System/)                   | Borrow, return, and add books in a catalog                       | Beginner–Intermediate | Objects, Functions           |
 | 5   | [Student Grading System](./05%20-%20Student%20Grading%20System/) | Calculates grades and prints a formatted certificate             | Intermediate          | Conditionals, String Methods |
 | 6   | [Secure Digital Banking](./06%20-%20Secure%20Digital%20Banking/) | Multi-step login (username/password/OTP) plus account operations | Intermediate          | Nested Loops, Validation     |
+| 7   | [Expense Tracker](./07%20-%20Expense%20Tracker/)                 | Add, delete, list, and total expenses                            | Intermediate          | Object Methods, try/catch    |
 
 ## Repository Structure
 
@@ -67,6 +68,9 @@ JavaScript/
 ├── 06 - Secure Digital Banking/
 │   ├── main.js
 │   └── README.md
+├── 07 - Expense Tracker/
+│   ├── main.js
+│   └── README.md
 ```
 
 ## How to Use
@@ -84,6 +88,7 @@ JavaScript/
 4. Library System
 5. Student Grading System
 6. Secure Digital Banking
+7. Expense Tracker
 
 ## Skills Demonstrated
 
@@ -100,7 +105,7 @@ JavaScript/
 
 ## Repository Statistics
 
-- **Total Projects:** 6
+- **Total Projects:** 7
 - **Language:** JavaScript
 - **Environment:** Browser Console
 - **Learning Level:** Beginner → Advanced
