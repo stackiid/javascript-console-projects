@@ -1,14 +1,14 @@
 # JavaScript Console Projects 🧩
 
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Projects](https://img.shields.io/badge/projects-10-informational)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Projects](https://img.shields.io/badge/projects-11-informational)
 
-**Status:** Active · **Language:** JavaScript · **License:** MIT · **Project Count:** 10 · **Environment:** Browser Console
+**Status:** Active · **Language:** JavaScript · **License:** MIT · **Project Count:** 11 · **Environment:** Browser Console
 
 ---
 
 ## Overview
 
-This repository is a collection of 10 console-based JavaScript projects, arranged from beginner to advanced. Each one was built to practice a specific set of concepts - starting with basic loops and conditionals and working up to multi-role applications with data relationships, algorithms, and admin dashboards.
+This repository is a collection of 11 console-based JavaScript projects, arranged from beginner to advanced. Each one was built to practice a specific set of concepts - starting with basic loops and conditionals and working up to multi-role applications with data relationships, algorithms, and admin dashboards.
 
 It's intended for anyone reviewing practical JavaScript ability, and for other students who want to see how a set of small ideas (todo lists, inventory trackers, booking systems) grows in complexity as more language features come into play.
 
@@ -29,7 +29,7 @@ This repository demonstrates:
 
 | Technology      | Purpose                                                      |
 | --------------- | ------------------------------------------------------------ |
-| JavaScript      | Programming language for all 10 projects                     |
+| JavaScript      | Programming language for all 11 projects                     |
 | Browser Console | Runtime environment (`prompt()`, `alert()`, `console.log()`) |
 
 ## Project Collection
@@ -46,6 +46,7 @@ This repository demonstrates:
 | 8   | [Meal Planner](./08%20-%20Meal%20Planner/)                               | Generates a randomized weekly meal plan with timed reveal        | Intermediate–Advanced | Closures, setInterval          |
 | 9   | [Boutique Inventory Tracker](./09%20-%20Boutique%20Inventory%20Tracker/) | Manage stock, pricing, and restock alerts for a boutique         | Advanced              | Function Composition           |
 | 10  | [Car Rental System](./10%20-%20Car%20Rental%20System/)                   | Rent and return cars with discounts and fine calculation         | Advanced              | Nested Functions, Transactions |
+| 11  | [Book My Flight](./11%20-%20Book%20My%20Flight/)                         | Full flight booking platform with guest/user/admin roles         | Advanced              | Data Relationships, filter/map |
 
 ## Repository Structure
 
@@ -83,6 +84,9 @@ JavaScript/
 ├── 10 - Car Rental System/
 │   ├── main.js
 │   └── README.md
+├── 11 - Book My Flight/
+│   ├── main.js
+│   └── README.md
 ```
 
 ## How to Use
@@ -104,6 +108,7 @@ JavaScript/
 8. Meal Planner
 9. Boutique Inventory Tracker
 10. Car Rental System
+11. Book My Flight
 
 ## Skills Demonstrated
 
@@ -120,7 +125,7 @@ JavaScript/
 
 ## Repository Statistics
 
-- **Total Projects:** 10
+- **Total Projects:** 11
 - **Language:** JavaScript
 - **Environment:** Browser Console
 - **Learning Level:** Beginner → Advanced
