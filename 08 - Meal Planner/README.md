@@ -1,115 +1,114 @@
-# Meal Planner 🍽️
+# Meal Planner
 
-A console-based weekly meal plan generator that builds a randomized, categorized meal schedule and reveals it with a timed console animation.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
+A meal plan generator for the browser console. After the user chooses a number of days and a recipe type, the program builds a randomized plan with breakfast, lunch, dinner, and a featured recipe for each day, and prints the days one second apart.
 
-The program asks for a number of days and a dietary preference (veg, non-veg, or any), then generates a meal plan for each day - breakfast, lunch, dinner, and a "special recipe" pulled from a recipe dataset. Instead of printing the whole plan at once, it reveals one day at a time using `setInterval`.
+## Table of Contents
 
-## Why I Built This Project
-
-I built this to practice working with arrow functions, array filtering against a dataset, and asynchronous-style timing behavior (`setInterval` / `setTimeout`) instead of purely synchronous console output.
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Usage](#usage)
+- [Data](#data)
+- [How It Works](#how-it-works)
+- [Example Output](#example-output)
+- [Known Limitations](#known-limitations)
+- [License](#license)
 
 ## Features
 
-- Filter recipes by dietary type (veg, non-veg, any)
-- Generate a randomized meal plan for a user-specified number of days
-- Categorize each recipe's prep time as Quick, Medium, or Long
-- Reveal the plan one day at a time with a timed console animation
-- Input validation with a retry loop for invalid dietary type
+- 30 recipes (15 vegetarian and 15 non-vegetarian), each with ingredients, a preparation time, and a type
+- Plan for any positive number of days
+- Recipe filter: `veg`, `non-veg`, or `any`, re-asked until the input is valid
+- Random breakfast, lunch, and dinner choices for each day
+- Featured recipe for each day with its ingredients and preparation time
+- Preparation-time category (Quick, Medium, or Long) with a matching suggestion
+- Days printed one at a time with `setInterval()`, followed by a completion message
 
-## Technologies Used
+## Tech Stack
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-- `setInterval()` / `setTimeout()` for timed output
-
-## JavaScript Concepts Demonstrated
-
-- Arrow functions
-- Array filtering and random selection
-- `switch` statements
-- `try` / `catch` / `throw` for input validation
-- Closures (index tracked inside `setInterval` callback)
-- Timing functions (`setInterval`, `setTimeout`, `clearInterval`)
-
-## Learning Outcomes
-
-This project demonstrates:
-
-- Filtering a dataset based on dynamic user input
-- Using `setInterval` with a closure-tracked index to reveal output over time
-- Cleanly stopping a repeating timer with `clearInterval` once work is done
-- Mapping a numeric value (prep time) into a descriptive category via conditional branching
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()`, `console.warn()`, `console.error()` |
+| Techniques | Arrow functions, function expressions, `try`/`catch`, `switch`, `setInterval()`, `clearInterval()`, `setTimeout()` |
 
 ## Project Structure
 
-```
+```text
 08 - Meal Planner/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` contains the recipe dataset, helper arrow functions, the `generateMealPlan()` function, and the input-gathering flow that calls it.
+## Running the Project
+
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
+
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
+
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
+
+## Usage
+
+1. Enter your name when asked.
+2. Enter the number of days to plan.
+3. Enter the recipe type: `veg`, `non-veg`, or `any`.
+4. Watch the console as each day appears.
+
+## Data
+
+| Source | Contents |
+| --- | --- |
+| `recipes` | 30 objects with `name`, `ingredients` (four items), `prepTime` in minutes, and `type` |
+| `mealTypes.breakfast` | Pancakes, Omelette, Toast, Cereal |
+| `mealTypes.lunch` | Sandwich, Salad, Soup, Burger |
+| `mealTypes.dinner` | Steak, Pasta, Rice, Noodles |
 
 ## How It Works
 
-1. The user enters their name and is greeted.
-2. The user enters the number of days to plan for.
-3. The user enters a dietary preference, validated in a retry loop.
-4. `generateMealPlan()` filters recipes by type and builds a day-by-day plan.
-5. The plan is revealed one day at a time via `setInterval`, then the timer clears and a completion message prints.
-
-## Getting Started
-
-**Prerequisites:** A modern web browser.
-
-```bash
-git clone <your-repo-url>
-cd "08 - Meal Planner"
-```
-
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run.
+- `generateMealPlan(days, recipeType)` checks that `days` is a positive number, then collects the recipes that match the chosen type.
+- For each day it picks random meals, picks a random matching recipe, and assigns a category from the preparation time: 15 minutes or less is Quick, up to 30 is Medium, and above 30 is Long.
+- Helper functions handle the details: `getRandomIndex()` for random picks, `capitalize()` for the recipe name, and `getPrepTimeMessage()` for the preparation-time text.
+- The finished plan is printed by a `setInterval()` timer that logs one day per second, clears itself when the list is exhausted, and then uses `setTimeout()` to print a completion message half a second later.
+- Errors are reported with `alert()` and `console.error()`.
 
 ## Example Output
 
-```
+The shape of one day's output (the values are random):
+
+```text
 Day 1:
-Breakfast: Pancakes
-Lunch: Salad
+Breakfast: Toast
+Lunch: Soup
 Dinner: Pasta
-Special Recipe: Chicken Curry
-Ingredients: chicken, curry powder, onion, tomato
-Prep time: 30 minutes (Medium)
-Suggestion: Good for a normal day.
+Special Recipe: Quinoa salad
+Ingredients: quinoa, cucumber, tomato, lemon
+Prep time: 10 minutes (Quick)
+Suggestion: Perfect for a busy day!
 ```
 
-## Technical Highlights
+## Known Limitations
 
-- Closure-based index tracking inside a repeating `setInterval` callback
-- Clean separation between data (recipes/meal types) and logic (plan generation)
-- Defensive validation loop for dietary type before generation begins
-
-## Limitations
-
-- No persistent storage - plan isn't saved between sessions
-- Meal selection is fully random, with no repeat-avoidance across days
-- No ingredient shopping list aggregation across the whole week
-
-## Future Improvements
-
-- Avoid repeating the same special recipe within one plan
-- Aggregate a full shopping list from all selected recipes
-- Add calorie or nutrition estimates per meal
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Asynchronous Timing (setInterval/setTimeout)
-- Array Manipulation
-- Error Handling
+- The program announces a "Weekly" plan, but the number of days is whatever the user enters.
+- A non-numeric day count is not rejected: the plan is empty and only the opening and completion messages appear.
+- `capitalize()` lowercases everything after the first letter, so recipe names appear as "Quinoa salad" rather than "Quinoa Salad".
+- Days are chosen independently at random, so meals and recipes can repeat.
+- Clicking Cancel on the recipe-type prompt raises an error and stops the script.
+- The script prints a "demo version" warning when it starts.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).

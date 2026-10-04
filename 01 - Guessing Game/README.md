@@ -1,112 +1,80 @@
-# Guessing Game 🎯
+# Guessing Game
 
-A number-guessing game that generates a random target and gives the player high/low feedback until they find it.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
-
-The program picks a random number between 1 and 100 and asks the player to guess it. After every guess, it tells the player whether to go higher or lower, and counts how many attempts it took to win.
-
-## Why I Built This Project
-
-I built this as a first project to practice core JavaScript control flow: loops that run until a condition is met, conditionals that branch program behavior, and basic input validation using `prompt()`.
+A number-guessing game for the browser console. The program picks a random whole number from 1 to 100 and keeps asking for guesses, reporting whether each guess is too high or too low, until the player finds the number.
 
 ## Features
 
-- Random number generation between 1 and 100
-- Continuous guessing loop until the correct number is found
-- Too high / too low feedback after each guess
-- Attempt counter shown on a win
-- Input validation for non-numeric and out-of-range guesses
+- Random target number between 1 and 100, generated with `Math.random()`
+- Guessing loop that runs until the correct number is entered
+- "Too high" and "too low" feedback after every valid guess, shown through both `console.log()` and `alert()`
+- Input validation that rejects non-numeric guesses and numbers outside the 1 to 100 range
+- Attempt counter that is reported in the winning message
 
-## Technologies Used
+## Tech Stack
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-- `Math.random()` for number generation
-
-## JavaScript Concepts Demonstrated
-
-- Variables (`let`)
-- Data types (numbers, strings, booleans)
-- Operators (comparison, arithmetic)
-- Conditionals (`if` / `else if` / `else`)
-- Loops (`while (true)` with `break` / `continue`)
-- `isNaN()` validation
-- Template literals
-
-## Learning Outcomes
-
-This project demonstrates:
-
-- Writing a controlled infinite loop with a clear exit condition
-- Validating user input before acting on it
-- Using comparison operators to drive program branching
-- Tracking state (attempt count) across loop iterations
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()` |
 
 ## Project Structure
 
-```
+```text
 01 - Guessing Game/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` contains the entire game: number generation, the guessing loop, and all feedback logic.
+The whole game is in `main.js`: number generation, the guessing loop, validation, and feedback.
+
+## Running the Project
+
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
+
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
+
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
 
 ## How It Works
 
-1. The program generates a random number between 1 and 100.
-2. The player is prompted to enter a guess.
-3. The input is validated (must be a number between 1 and 100).
-4. The program compares the guess to the target and gives feedback.
-5. Steps 2–4 repeat until the guess matches the target.
-6. The program announces the win along with the number of attempts.
+1. `radNum` is set to a random integer from 1 to 100 and `attempts` starts at 0.
+2. Two `alert()` dialogs welcome the player and explain the range.
+3. A `while (true)` loop asks for a guess with `prompt()` and converts it with `parseInt()`.
+4. If the value is not a number, or is outside 1 to 100, an `alert()` explains the problem and the loop continues.
+5. If the guess is higher than the target, the player is told it is too high. If it is lower, the player is told it is too low.
+6. If the guess matches, the congratulations message includes the number of attempts and the loop ends with `break`.
 
-## Getting Started
+## Example Session
 
-**Prerequisites:** A modern web browser (this project uses `alert()` / `prompt()`, which run in a browser console).
+The target in this example is 62.
 
-```bash
-git clone <your-repo-url>
-cd "01 - Guessing Game"
-```
-
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to play.
-
-## Example Output
-
-```
-23 is too high! Try again.
+```text
+Enter your guess: 50
 50 is too low! Try again.
-Congratulations! You guessed the number 37 in 4 attempts.
+Enter your guess: 75
+75 is too high! Try again.
+Enter your guess: 62
+Congratulations! You guessed the number 62 in 3 attempts.
 ```
 
-## Technical Highlights
+## Known Limitations
 
-- Clean exit condition for an otherwise infinite loop
-- Defensive input validation before comparison logic runs
-- Minimal, readable control flow with no unnecessary complexity
+- The attempt counter is incremented before validation, so invalid or out-of-range entries count as attempts.
+- Clicking Cancel on the guess dialog returns `null`, which is treated as invalid input, so the dialog reappears. To stop the game early, reload the page.
+- There is no replay option. Run the script again to get a new target number.
 
-## Limitations
+## License
 
-- No GUI, runs entirely through browser `alert`/`prompt` dialogs
-- No persistent score history between sessions
-- No difficulty levels or configurable number range
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
 
-## Future Improvements
+Copyright (c) 2026 Ubaid Ahmad
 
-- Add a difficulty selector (range size, max attempts)
-- Track and display best score across sessions
-- Add a hint system (e.g., "getting warmer")
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Control Flow
-- Input Validation
-- Problem Solving
-
-#### License
-
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+Return to the [repository index](../README.md).

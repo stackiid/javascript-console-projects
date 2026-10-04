@@ -1,111 +1,96 @@
-# Secure Digital Banking 🏦
+# Secure Digital Banking
 
-A console-based banking portal simulation with multi-step authentication and core account operations.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
+A simulated banking portal for the browser console. The user must pass a three-step login (username, password, and a one-time passcode) before reaching a menu for checking the balance, depositing money, and withdrawing money.
 
-This program simulates a secure login flow - username, password, and a generated one-time password (OTP) - with attempt limits and lockout messaging at each stage. Once authenticated, the user can check their balance, deposit funds, and withdraw funds.
+## Table of Contents
 
-## Why I Built This Project
-
-I built this to practice multi-stage validation flows with attempt tracking, nested loops that gate access to further functionality, and simulating a real-world security pattern (username → password → OTP).
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Login Flow](#login-flow)
+- [Account Menu](#account-menu)
+- [Credentials](#credentials)
+- [Known Limitations](#known-limitations)
+- [License](#license)
 
 ## Features
 
-- Username verification with a limited number of attempts
-- Password verification with a limited number of attempts
-- Randomly generated 6-digit OTP verification
-- Lockout messaging after failed attempts
-- Check balance
-- Deposit funds (with input validation)
-- Withdraw funds (with balance and input validation)
+- Username check with up to three attempts and a remaining-attempts message after each failure
+- Password check with up to three attempts
+- Six-digit one-time passcode (OTP) generated at random for each login
+- Account menu with Check Balance, Deposit Money, Withdraw Money, and Exit
+- Starting balance of Rs. 50,000, formatted with `toLocaleString()`
+- Validation of deposit and withdrawal amounts, including an insufficient-balance warning
+- Nested loops and early exits that model account lockout messages
 
-## Technologies Used
+## Tech Stack
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-- `Math.random()` for OTP generation
-
-## JavaScript Concepts Demonstrated
-
-- Nested loops (`while` inside `while`)
-- Conditionals and early-exit logic
-- Constants vs. mutable state (`const` vs `let`)
-- Number formatting with `.toLocaleString()`
-- Basic simulated security workflow (multi-factor style authentication)
-
-## Learning Outcomes
-
-This project demonstrates:
-
-- Gating access to a feature set behind a multi-step, attempt-limited authentication flow
-- Coordinating state across nested loops (breaking out of both when authentication resolves)
-- Validating numeric input for financial operations (deposits/withdrawals)
-- Communicating account state clearly and safely to the user
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()`, `console.error()`, `console.warn()` |
+| Techniques | Nested `while` loops, `const` configuration values, `Math.random()`, `parseInt()` |
 
 ## Project Structure
 
-```
+```text
 06 - Secure Digital Banking/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` contains the full authentication flow followed by the banking operations menu, gated behind a successful login.
+## Running the Project
 
-## How It Works
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
 
-1. The user is prompted for a username, with up to 3 attempts.
-2. On success, the user is prompted for a password, with up to 3 attempts.
-3. On success, a 6-digit OTP is generated and shown, then the user must re-enter it.
-4. On successful OTP verification, `isAuthenticated` is set to `true`.
-5. If authenticated, the user enters a banking menu: check balance, deposit, withdraw, or exit.
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
 
-## Getting Started
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
 
-**Prerequisites:** A modern web browser.
+## Login Flow
 
-```bash
-git clone <your-repo-url>
-cd "06 - Secure Digital Banking"
-```
+1. The username is compared with the stored value. Three wrong attempts show a "permanently locked" message and end the login.
+2. After a correct username, the password is checked the same way, with three attempts.
+3. After a correct password, a six-digit OTP is generated and shown in an `alert()`, which stands in for a text message.
+4. The user types the OTP. A match sets `isAuthenticated` to `true` and opens the account menu.
+5. A wrong OTP shows a "temporarily locked for 48 hours" message and the script ends. The OTP stage is attempted once per run.
 
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run. Use username `admin` and password `hello123456` to log in.
+The lock messages are informational only. No lock state is stored, so running the script again starts a fresh login.
 
-## Example Output
+## Account Menu
 
-```
-Your current balance is Rs. 50,000
-Rs. 5,000 deposited successfully.
-New balance: Rs. 55,000
-```
+| Option | Action |
+| --- | --- |
+| 1 | Check Balance |
+| 2 | Deposit Money (positive whole number) |
+| 3 | Withdraw Money (positive whole number that does not exceed the balance) |
+| 4 | Exit |
 
-## Technical Highlights
+## Credentials
 
-- Attempt-limited authentication at three separate stages
-- Coordinated loop exits across nested `while` loops
-- Consistent input validation before any balance mutation
+The login values are constants at the top of `main.js` (`correctUsername` and `correctPassword`). They are demo values in the source code, and they are not repeated here.
 
-## Limitations
+## Known Limitations
 
-- Credentials are hardcoded in the source - not a real security implementation
-- No persistent storage - balance resets each session
-- OTP is displayed directly via `alert`, which wouldn't happen in a real system
-
-## Future Improvements
-
-- Move credential checks to a backend with hashed passwords
-- Add transaction history logging
-- Add support for multiple accounts/users
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Control Flow
-- Input Validation
-- Simulated Security Workflows
+- Credentials are stored in plain text in the script, so this is a demonstration of control flow and not a real authentication system.
+- The OTP is displayed on screen and is never sent anywhere.
+- The code includes a second, "72 hours or more" lock message for a repeated OTP failure, but it cannot be reached in a single run because the script ends after the first OTP failure.
+- Amounts are read with `parseInt()`, so decimals are cut off (100.75 becomes 100).
+- Balance changes are not saved between runs.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).

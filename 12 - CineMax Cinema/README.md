@@ -1,132 +1,170 @@
-# CineMax Cinema 🎬
+# CineMax Cinema
 
-An enterprise-style console cinema management system with seat maps, dynamic pricing, a wallet, coupons, and a genre-based recommendation engine.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
+CineMax Galaxy is a cinema booking system for the browser console, with a customer side and an administrator side. Customers browse 30 movies, pick seats from a 60-seat map, order food, apply coupons, pay by cash, card, or wallet, and manage a wallet and reward points. Administrators manage movies, users, coupons, and reports. All data lives in memory.
 
-CineMax Galaxy simulates a full cinema booking platform. Customers sign up, browse and search movies, select seats from a generated seat map, order food, apply coupons, pay via cash/card/wallet, and receive personalized movie recommendations based on their booking history. Admins manage the movie catalog, monitor revenue, occupancy, and activity logs, and moderate users.
+## Table of Contents
 
-The movie, food, deal, coupon, and user records that seed the system are built through small factory functions rather than hand-written as one large block of repeated object literals, keeping the data layer compact and giving every entity of a given type a single, consistent shape.
-
-## Why I Built This Project
-
-I built this as my most advanced console project to bring together everything I'd learned - object-oriented state management, algorithmic seat-map generation, a simple recommendation engine, and a layered admin dashboard - into one system large enough to resemble a real production application. I later went through an optimization pass to cut duplication out of the data layer and consolidate repeated computations into shared helpers, without changing any user-facing behavior.
+- [Features](#features)
+- [Menus](#menus)
+- [Seed Data](#seed-data)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Booking Flow](#booking-flow)
+- [Pricing and Billing](#pricing-and-billing)
+- [Accounts and Security Rules](#accounts-and-security-rules)
+- [Wallet and Rewards](#wallet-and-rewards)
+- [Data Model](#data-model)
+- [JavaScript Concepts Used](#javascript-concepts-used)
+- [Known Limitations](#known-limitations)
+- [License](#license)
 
 ## Features
 
-- User signup, login, logout, password reset, profile editing, and account deletion
-- Browse all movies, trending movies, and search by title/genre
-- Seat map generation and seat selection per showing
-- Dynamic ticket pricing based on movie and timing
-- Food ordering as part of checkout
-- Coupon code application at checkout
-- Multiple payment methods: cash, card, and in-app wallet
-- Digital bill/receipt generation
-- Booking history, cancellation, and favorites
-- Wallet top-up and reward point redemption
-- Genre-based movie recommendations from booking history
-- Admin: add/update/delete movies, view all movies and users
-- Admin: ban/unlock users, revenue dashboard, booking reports, seat occupancy, food reports
-- Admin: activity log, movie stats, coupon management, waiting list, blacklist
+- Thirty movies across six categories (Action, SciFi, Horror, Comedy, Thriller, and Animation, five each) with year, duration, rating, age restriction, show timings, and ticket price
+- Movie browsing, a Trending list, and search by name, genre, minimum rating, or language, plus sorting by rating, price, or number of bookings
+- Movie details with reviews, favorites, and booking
+- A 10 by 6 seat map (rows A to J, columns 1 to 6) drawn in the console, with booked, selected, and available seats
+- Dynamic ticket pricing based on how full a show is and on the show time
+- Food ordering from a menu of 30 items in 11 categories, plus nine combo deals
+- Six coupon codes, each usable once per customer
+- Three payment methods: cash, card, and a wallet
+- A formatted bill for every booking
+- Cancellation with a refund to the wallet
+- Wallet top-ups, reward points, and automatic VIP status
+- Recommendations based on booking history
+- Customer accounts with registration, login, password reset by security question, account lockout, profile editing, and account deletion
+- Administrator dashboard with movie management, user management, coupon management, a waiting list view, and six reports
 
-## Technologies Used
+## Menus
 
-- JavaScript (Browser Console, strict mode)
-- `prompt()` / `alert()` for I/O
-- `Date.now()` and `Math.random()` for unique ID generation
+The first screen offers Login, Sign Up (new member), Reset Password, and Exit. After login, administrators and customers see different dashboards.
 
-## JavaScript Concepts Demonstrated
+| Role | Menu options |
+| --- | --- |
+| Customer | 1 Browse All Movies, 2 Trending Movies, 3 Search and Filter Movies, 4 Recommendations, 5 My Booking History, 6 Cancel a Booking, 7 My Wallet, 8 My Favorites, 9 My Profile, 10 Edit Profile, 11 Delete My Account, 0 Logout |
+| Administrator | 1 Add New Movie, 2 Delete Movie, 3 Update Ticket Price, 4 View All Movies, 5 View All Users, 6 Ban or Unban User, 7 User Details, 8 Unlock User Account, 9 Revenue Dashboard, 10 All Bookings Report, 11 Seat Occupancy Chart, 12 Food Sales Report, 13 Movie-wise Statistics, 14 Activity Log, 15 Manage Coupons, 16 Waiting List, 17 Blacklisted Users, 0 Logout |
 
-- `"use strict"` mode
-- Arrays of objects modeling multiple entities (users, movies, bookings, activity log)
-- Factory functions (`makeMovie`, `makeUser`, `food`, `deal`, `coupon`) that build a full entity from just the fields that vary, keeping seed data compact and every entity of a type consistently shaped
-- Higher-order functions: `filter`, `map`, `sort`, `find`, `forEach`, and a small reusable `sumBy` reducer used everywhere a total needed to be aggregated
-- `Set` for tracking unique booked movie IDs
-- `Object.entries()` for frequency analysis (genre popularity)
-- Closures and reusable formatter/logger utility functions
-- Algorithmic logic: seat map generation, dynamic pricing, recommendation scoring
+## Seed Data
 
-## Learning Outcomes
+Two accounts are created at startup: a System Admin account and a demo customer (username `ali`) with a wallet balance and some reward points. Their details are in the "Seed Admin" and "Seed Demo Customer" blocks of `main.js` and are not repeated here. Anyone can also create a new customer account from the first menu.
 
-This project demonstrates:
+The six coupon codes are `WELCOME10` (10 percent), `MOVIE20` (20 percent), `FOOD15` (15 percent), `VIP25` (25 percent), `FLAT500` (flat PKR 500), and `WEEKEND15` (15 percent). The percentage coupons are applied to the booking subtotal.
 
-- Designing a simple recommendation algorithm: scoring genres by booking frequency and ranking unseen movies accordingly
-- Using `Set` to efficiently check membership (already-booked movies) instead of repeated array scans
-- Structuring a large application into clearly named sections (auth, browsing, booking, payments, wallet, recommendations, admin)
-- Building an admin dashboard that reports on the same data customers generate (revenue, occupancy, activity)
-- Writing small, composable utility functions (`box`, `sub`, `ok`, `er`, `fmtPKR`) that keep console output consistent across a large codebase
-- Extracting factory functions and shared computation helpers (`bookedCount`, `sumBy`, `seatRowIndex`/`seatColIndex`, `isYes`) after noticing the same object shape or calculation repeated across many functions, without altering any observable behavior
+## Tech Stack
+
+| Category | Details |
+| --- | --- |
+| Language | JavaScript, with `"use strict"` enabled |
+| Runtime | Browser developer console |
+| Input and output | `prompt()` (through a small `ask()` wrapper), `alert()`, `console.log()` |
+| Storage | In-memory structures: the `cinema` object, `foodDB`, `dealsDB`, `couponsDB`, `usersDB`, `bookingsDB`, `activityLog`, `waitingList` |
 
 ## Project Structure
 
-```
+```text
 12 - CineMax Cinema/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` contains display utilities, factory functions and the movie/user/booking data model they build, seat-map and pricing algorithms, the full customer flow, the recommendation engine, and the admin dashboard, tied together by `main()`.
+`main.js` is split into numbered sections: display utilities, ID generators, the seat map engine, the database layer, the activity logger, authentication, movie browsing and search, seat selection, dynamic pricing, food, coupons, payment, billing, booking and cancellation, the wallet, recommendations, the customer dashboard, and the administrator functions and dashboard.
 
-## How It Works
+## Running the Project
 
-1. `main()` presents the entry menu: sign up, log in, or exit.
-2. Authenticated customers reach `customerDashboard()`, from which they can browse movies, book seats, order food, pay, manage their wallet, and view recommendations.
-3. `bookMovie()` walks through seat selection, dynamic pricing, food ordering, coupon application, and payment before generating a bill.
-4. Admin accounts reach `adminDashboard()`, with tools for catalog management and system-wide reporting.
-5. All significant actions are recorded via `logActivity()` for later review in the admin activity log.
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
 
-## Getting Started
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
 
-**Prerequisites:** A modern web browser.
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
 
-```bash
-git clone <your-repo-url>
-cd "12 - CineMax Cinema"
-```
+## Booking Flow
 
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run.
+1. The customer opens a movie from the browse, trending, search, or recommendation lists and chooses Book This Movie.
+2. The program checks that the account is not banned, that fewer than five bookings were made in the current session, and that the customer's registered age meets the movie's age restriction.
+3. If the movie is full, the customer can join the waiting list. Otherwise they enter the number of people (up to 6, or fewer if fewer seats remain).
+4. The customer picks each seat by label (for example `B3`). Cancel returns the chosen seats to available.
+5. The customer selects a show time and sees the price per seat.
+6. The customer can order food, entering item commands or deal commands `D1` to `D9`.
+7. A coupon code can be applied, and the bill summary is displayed for confirmation.
+8. The customer chooses a payment method. Cash requires an amount at least equal to the total and shows the change. Card checks that the number has 16 digits, the CVV has 3 digits, and the expiry date (MM/YY) has not passed. Wallet payment requires a sufficient balance.
+9. The booking is saved, reward points are added, a bill is printed, and the activity is logged.
 
-## Example Output
+Customers can leave a review (rating 1 to 10) only for movies they have booked.
 
-```
-★  AI MOVIE RECOMMENDATIONS ✨  ★
-ℹ  Personalised based on your watch history & preferences:
+## Pricing and Billing
 
-  Dune: Part Two ................ Sci-Fi | ⭐ 8.7
-  Oppenheimer .................... Drama | ⭐ 8.9
-```
+| Step | Rule |
+| --- | --- |
+| Base price | The movie's ticket price |
+| Surge pricing | Plus 10 percent when 80 percent or more of the seats are booked |
+| Peak hour | Plus 5 percent for shows starting from 6 PM to 10 PM |
+| Subtotal | Ticket total plus food total |
+| Coupon | Percent or flat discount, once per customer per coupon |
+| VIP discount | 5 percent of the subtotal for VIP members |
+| Service charge | 3 percent of the amount after discounts |
+| Tax (GST) | 13 percent of the amount after discounts |
 
-## Technical Highlights
+Prices are in PKR.
 
-- Genre-frequency recommendation algorithm built from scratch using `Object.entries` and `sort`
-- `Set`-based deduplication for already-booked movies during recommendation filtering
-- Consistent, reusable console-formatting utilities (`box`, `sub`, `lbl`, `ok`, `er`, `inf`, `wrn`) used throughout every section
-- Layered dashboard architecture separating customer-facing and admin-facing logic
-- Factory-driven seed data: movies, food items, combo deals, coupons, and users are each built by a single function from a compact set of varying fields, instead of ~850 lines of repeated object literals
-- Shared computation helpers (`bookedCount`/`availableCount`, `sumBy`, `seatRowIndex`/`seatColIndex`, `isYes`) replace duplicated seat-counting, summing, seat-label-parsing, and yes/no-check logic that had been copied across more than a dozen call sites
+## Accounts and Security Rules
 
-## Limitations
+| Area | Rule |
+| --- | --- |
+| Username | At least 3 characters, unique, stored in lowercase |
+| Password | At least 6 characters, with at least one uppercase letter and one digit |
+| Age | Between 5 and 120 |
+| Contact number | At least 7 characters |
+| Email | Must contain `@` |
+| Lockout | The account locks after 5 failed logins |
+| Unlocking | Reset Password (answer the security question) or an administrator unlock |
+| Bans | An administrator can ban or unban a customer, and banned users are listed under Blacklisted Users |
+| Profile edits and deletion | Require the account password |
 
-- No persistent storage - the entire system resets when the console session ends
-- No real payment gateway integration; card/cash/wallet payments are simulated
-- Single-session only - no multi-user concurrency handling
+## Wallet and Rewards
 
-## Future Improvements
+- Top up the wallet with at least PKR 100.
+- Each booking earns one reward point for every PKR 100 of the total.
+- Points can be redeemed from 100 upward, at 100 points for PKR 100.
+- A customer with 1,000 or more points becomes a VIP member.
+- Cancelling a booking asks the customer to pick a refund option: full (100 percent), half (50 percent), or none. The refund goes to the wallet and the seats are released.
 
-- Add persistent storage or a backend database for users, bookings, and activity logs
-- Add real payment gateway integration
-- Add showtime scheduling across multiple screens and days
+## Data Model
 
-## Skills Demonstrated
+| Record | Main fields |
+| --- | --- |
+| Movie | `id`, `title`, `year`, `category`, `language`, `duration`, `rating`, `ageRestriction`, `timings`, `ticketPrice`, `totalSeats` (60), `tags`, `revenue`, `reviews`, `totalBookings`, `seatMap` |
+| Seat | `label` (for example `C4`) and `status` (`available`, `selected`, or `booked`) |
+| User | `id`, `name`, `username`, `password`, `gender`, `age`, `contact`, `email`, `cnic`, security question and answer, `walletBalance`, `rewardPoints`, `isVIP`, `isBanned`, `isLocked`, `failedAttempts`, `role`, history lists, `favorites`, `activityLog` |
+| Booking | Booking ID, movie, seats, timing, price breakdown, payment method, status, refund amount, and coupon code |
+| Food item and deal | `id`, `name`, `category`, `price`, and for deals a list of included items |
 
-- JavaScript Fundamentals
-- Algorithm Design (recommendations, seat maps, pricing)
-- Large-Scale Code Organization
-- Object-Oriented Thinking
-- Data Analysis & Reporting
-- Code Optimization & Refactoring (deduplication, shared helpers, behavior-preserving cleanup)
+## JavaScript Concepts Used
+
+Two-dimensional arrays, factory functions, `Set`, `Object.entries()`, `sort()`, `filter()`, `find()`, `reduce()`, regular expressions for password and card validation, optional chaining, default parameters, template literals, and small reusable helpers such as `ask()`, `sumBy()`, and `fmtPKR()`.
+
+## Known Limitations
+
+- Everything is stored in memory and is lost when the script is run again. Initial seat availability for each movie is randomized each run.
+- Passwords and security answers are stored as plain text.
+- Card payment checks the format of the details only. No payment is processed, and the card details are not stored.
+- The refund option is chosen by the customer and is not calculated from the show time.
+- All 30 movies are in English, and the language search only matches that value.
+- Joining the waiting list requires typing exactly `yes`.
+- Coupon descriptions mention tickets, food, first bookings, VIP members, and weekends, but every coupon is applied to the whole subtotal. The only restriction enforced is one use per customer.
+- The waiting list is only recorded and displayed in the administrator's Waiting List view and the revenue dashboard count. Customers are not notified when seats free up.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).

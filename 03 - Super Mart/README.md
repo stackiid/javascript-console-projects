@@ -1,108 +1,80 @@
-# Super Mart 🛒
+# Super Mart
 
-A console-based grocery store simulator where users browse a catalog and manage a shopping cart.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
-
-Super Mart displays a catalog of over 100 store items in a formatted table, then lets the user add items to a cart, view the cart, remove items, and view previously removed items - all through console prompts.
-
-## Why I Built This Project
-
-I built this to practice working with larger arrays of data, formatting console output with `console.table()`, and building a multi-option cart management flow.
+A grocery-store cart simulator for the browser console. It prints a catalog of 100 items as a table and then lets the user add items to a cart, view the cart, remove items, and review the items that were removed.
 
 ## Features
 
-- Browse the full store catalog (displayed via `console.table`)
-- Add items to cart (validated against the catalog)
-- View current cart contents
-- Remove items from cart
-- View a history of removed items
+- Catalog of 100 store items, grouped into rows of six and printed with `console.table()`
+- Add an item to the cart, validated against the catalog
+- View the current cart
+- Remove an item from the cart
+- View the history of removed items
+- Error and confirmation messages through `alert()` and the console
 
-## Technologies Used
+## Tech Stack
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-- `console.table()` for structured data display
-
-## JavaScript Concepts Demonstrated
-
-- Arrays and array iteration
-- Loops (`while`, `for`)
-- Conditionals
-- Array methods: `push()`, `splice()`, `indexOf()`, `includes()`
-- Data restructuring (flat array → table rows)
-
-## Learning Outcomes
-
-This project demonstrates:
-
-- Transforming a flat list into a structured table format for readability
-- Validating user input against a reference dataset before mutating state
-- Managing two related arrays (cart and removed items) independently
-- Building a straightforward menu loop for repeated user actions
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()`, `console.error()`, `console.table()` |
+| State | In-memory arrays: `superMartItems`, `userCart`, `removedItem` |
 
 ## Project Structure
 
-```
+```text
 03 - Super Mart/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` contains the store catalog, the table-formatting logic, and the full cart management menu.
+## Running the Project
+
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
+
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
+
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
+
+## Usage
+
+The catalog table is printed once, when the script starts. After that, a menu repeats until option 5 is chosen.
+
+| Option | Action |
+| --- | --- |
+| 1 | Ask for an item name and add it to the cart if it exists in the catalog |
+| 2 | Show the cart |
+| 3 | Remove an item from the cart by name |
+| 4 | Show the items that were removed from the cart |
+| 5 | Quit |
 
 ## How It Works
 
-1. The program builds and displays a table of all store items.
-2. The user chooses to browse/add, view cart, remove an item, view removed items, or quit.
-3. Each action validates input against the catalog or cart before applying it.
-4. The loop continues until the user quits.
+1. A loop turns the flat `superMartItems` array into row objects with six columns each (`Column1` to `Column6`) and passes them to `console.table()`.
+2. Adding an item uses `includes()` against the catalog and `push()` onto the cart.
+3. Removing an item uses `includes()` and `indexOf()` on the cart, `splice()` to take it out, and `push()` to record it in the removed list.
+4. The cart and the removed list are printed with numbered `for` loops.
 
-## Getting Started
+## Known Limitations
 
-**Prerequisites:** A modern web browser.
-
-```bash
-git clone <your-repo-url>
-cd "03 - Super Mart"
-```
-
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run.
-
-## Example Output
-
-```
-Here are the are items in your cart:
-1 - Apples
-2 - Milk
-```
-
-## Technical Highlights
-
-- Reshaping a 100+ item array into a 6-column table for `console.table()`
-- Consistent validation pattern across add/remove operations
-- Clear separation between "available in store" and "in cart" state
-
-## Limitations
-
-- No persistent storage - cart resets when the session ends
-- No pricing, checkout, or payment flow
-- Item names must match exactly (case-sensitive)
-
-## Future Improvements
-
-- Add prices and a checkout/total calculation
-- Add case-insensitive and partial-name search
-- Add quantity support instead of one entry per add
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Array Manipulation
-- Data Formatting
-- Control Flow
+- Item names must be typed exactly as shown in the catalog, including capitalization.
+- The catalog table is not shown again after the script starts, and option 1 only asks for an item name.
+- The cart stores names only, so there are no quantities or prices.
+- The last table row contains four items, so its last two columns have no value.
+- An unrecognized menu choice is ignored and the menu is shown again without a message.
+- Nothing is saved between runs.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).

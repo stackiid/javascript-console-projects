@@ -1,110 +1,103 @@
-# Expense Tracker 💰
+# Expense Tracker
 
-A console-based expense tracker built as a single object with methods for adding, deleting, listing, and totaling expenses.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
+An expense manager for the browser console, built around a single object that holds the data and the methods that work on it. The user can add, delete, list, and total expenses.
 
-`expenseTracker` is an object that holds an array of expense records and exposes methods to add a new expense, delete one by description, list all expenses, and calculate the running total. A menu loop drives the whole interaction.
+## Table of Contents
 
-## Why I Built This Project
-
-I built this to practice organizing related state and behavior together in a single object (rather than separate global arrays and functions), and to practice using `try`/`catch` for input validation instead of plain `if` checks.
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Usage](#usage)
+- [Data Model](#data-model)
+- [How It Works](#how-it-works)
+- [Known Limitations](#known-limitations)
+- [License](#license)
 
 ## Features
 
-- Add an expense (description, amount, category) with auto-incrementing ID
-- Delete an expense by description
-- List all recorded expenses
-- View the total of all expenses
-- Input validation via thrown errors
+- Ten starting expenses across seven categories
+- Add an expense with a description, an amount, and a category, with validation through `try` and `catch`
+- Delete an expense by description, matched without regard to capitalization
+- List every expense with its ID, description, amount, and category
+- Show the total of all expenses
+- Automatic ID assignment (one more than the last expense's ID)
 
-## Technologies Used
+## Tech Stack
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-
-## JavaScript Concepts Demonstrated
-
-- Object literals with methods (`this` binding)
-- Error handling with `try` / `catch` / `throw`
-- Array methods: `findIndex()`, `splice()`, `forEach()`
-- Loops and `switch` statements
-
-## Learning Outcomes
-
-This project demonstrates:
-
-- Grouping data and behavior into a single cohesive object
-- Using `this` correctly inside object methods
-- Validating input by throwing and catching custom errors instead of chained `if` statements
-- Searching an array of objects by a text field with `findIndex()`
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()`, `console.error()` |
+| Techniques | Object methods using `this`, `try`/`catch` with `throw new Error()`, `findIndex()`, `splice()`, `forEach()` |
 
 ## Project Structure
 
-```
+```text
 07 - Expense Tracker/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` defines the `expenseTracker` object (data + methods) and calls `expenseTracker.main()` to start the menu loop.
+## Running the Project
+
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
+
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
+
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
+
+## Usage
+
+The menu repeats until option 5 is chosen.
+
+| Option | Action |
+| --- | --- |
+| 1 | Add Expense |
+| 2 | Delete Expense |
+| 3 | List All Expenses |
+| 4 | View Total Expenses |
+| 5 | Exit |
+
+## Data Model
+
+The `expenseTracker` object has an `expenses` array and five methods: `addExpense`, `deleteExpense`, `listExpenses`, `getTotal`, and `main`. Each expense is an object:
+
+| Field | Description |
+| --- | --- |
+| `id` | Number |
+| `description` | Text |
+| `amount` | Number |
+| `category` | Text. The starting data uses Food, Housing, Utilities, Entertainment, Health, Transportation, and Education |
+
+The starting expenses add up to 1512.
 
 ## How It Works
 
-1. `expenseTracker.main()` displays the menu and reads the user's choice.
-2. A `switch` statement routes the choice to the matching method.
-3. `addExpense()` validates input and throws errors for invalid values, caught and reported to the user.
-4. `deleteExpense()`, `listExpenses()`, and `getTotal()` operate on the shared `expenses` array.
-5. The loop repeats until the user exits.
+- `addExpense()` throws an error when the description or category is empty or when the amount is not a number greater than 0, and the `catch` block reports the message with `alert()` and `console.error()`.
+- `deleteExpense()` lowercases both the stored description and the input, finds the first match with `findIndex()`, and removes it with `splice()`.
+- `getTotal()` adds every `amount` in a `for` loop.
+- `main()` runs the menu with a `switch` statement and is started with `expenseTracker.main()`.
 
-## Getting Started
+## Known Limitations
 
-**Prerequisites:** A modern web browser.
-
-```bash
-git clone <your-repo-url>
-cd "07 - Expense Tracker"
-```
-
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run.
-
-## Example Output
-
-```
-====== EXPENSE LIST ======
-ID: 1
-Description: Groceries
-Amount: 50
-Category: Food
--------------------------
-```
-
-## Technical Highlights
-
-- Object-based state management instead of scattered global variables
-- `try`/`catch`/`throw` used for genuine input validation, not just error suppression
-- Auto-incrementing ID logic based on the last item in the array
-
-## Limitations
-
-- No persistent storage - expenses reset each session
-- No editing of existing expenses, only add/delete
-- Category is free text, not validated against a fixed list
-
-## Future Improvements
-
-- Add expense editing
-- Add category-based filtering and totals
-- Add persistent storage (file or `localStorage`)
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Object-Oriented Thinking
-- Error Handling
-- Array Manipulation
+- Amounts have no currency symbol or fixed number of decimals, and the total is a plain floating-point sum.
+- Clicking Cancel on the delete prompt raises an uncaught error and stops the script.
+- Only the first expense with a matching description is deleted.
+- Nothing is saved between runs.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).

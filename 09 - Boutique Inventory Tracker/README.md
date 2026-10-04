@@ -1,109 +1,114 @@
-# Boutique Inventory Tracker 👗
+# Boutique Inventory Tracker
 
-A console-based inventory management system for a clothing boutique, with stock tracking, restock alerts, and sales simulation.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
+An inventory manager for a fictional boutique, written for the browser console. It tracks 30 products in three categories and lets the user browse the inventory, look up products, update stock and prices, check availability and restock alerts, and simulate sales.
 
-The program manages a 30-item product catalog (clothing, shoes, accessories), each with a price, stock level, and restock threshold. Users can browse by category, look up product details, update stock or price, check availability, trigger restock alerts, simulate individual sales, and process a full day of sales across the entire catalog.
+## Table of Contents
 
-## Why I Built This Project
-
-I built this to practice writing a set of interrelated functions that all operate on the same shared dataset, and to model realistic business logic like restock thresholds and end-of-day batch processing.
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Usage](#usage)
+- [Data Model](#data-model)
+- [How It Works](#how-it-works)
+- [Known Limitations](#known-limitations)
+- [License](#license)
 
 ## Features
 
-- Browse inventory by category (shoes, clothes, accessories)
-- Look up a product by name or generated 4-digit code
-- Update a product's stock level
-- Update a product's price
-- Check whether a product is in stock
-- Check and alert on low-stock (restock threshold) conditions
-- Simulate a single sale (decrements stock by 1)
-- Process daily sales across the entire catalog in one action
+- 30 products: 13 in Clothing, 6 in Shoes, and 11 in Accessories
+- A short product code generated for each product when the script starts
+- Browse by category (`shoes`, `clothes`, or `accessories`)
+- Product lookup by exact name or code, printing every field
+- Stock level and price updates
+- Availability check that reports the stock count or an out-of-stock message
+- Restock alert when stock is at or below a product's restock threshold
+- Single-sale simulation and a daily sales simulation that sells one unit of every in-stock product
+- Menu loop with nine options
 
-## Technologies Used
+## Tech Stack
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-
-## JavaScript Concepts Demonstrated
-
-- Arrays of objects
-- Functions with parameters and return values
-- `Object.keys()` for dynamic property iteration
-- Loops (`for`, `while`) and `switch` statements
-- Random code generation
-
-## Learning Outcomes
-
-This project demonstrates:
-
-- Looking up records by more than one identifier (name or code)
-- Using `Object.keys()` to print any object's fields generically
-- Composing functions together (`processDailySales` calls `simulateSale`, which feeds `checkRestockAlert`)
-- Separating read operations (details, availability) from write operations (stock/price updates)
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()`, `console.error()` |
+| Techniques | Array of objects, functions that take arguments and return values, `switch`, `Object.keys()`, `for...of` |
 
 ## Project Structure
 
-```
+```text
 09 - Boutique Inventory Tracker/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` contains the product catalog, all inventory functions, and the `main()` menu loop that ties them together.
+## Running the Project
+
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
+
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
+
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
+
+## Usage
+
+The menu repeats until option 9 is chosen.
+
+| Option | Action |
+| --- | --- |
+| 1 | Display Inventory (then type `shoes`, `clothes`, or `accessories`) |
+| 2 | Get Product Details (by name or code) |
+| 3 | Update Stock Level (name or code, then a new quantity) |
+| 4 | Update Price (name or code, then a new price) |
+| 5 | Check Product Availability |
+| 6 | Check Restock Alert |
+| 7 | Simulate Sale (reduces stock by one) |
+| 8 | Process Daily Sales (one sale per in-stock product) |
+| 9 | Exit |
+
+Names must be typed exactly as stored, and the generated codes are printed in the category listing from option 1.
+
+## Data Model
+
+| Field | Description |
+| --- | --- |
+| `id` | Number from 1 to 30 |
+| `name` | Product name |
+| `price` | Number |
+| `stock` | Units in stock |
+| `restockThreshold` | Stock level at or below which a restock alert is raised |
+| `category` | `Clothing`, `Shoes`, or `Accessories` |
+| `code` | Added at startup: the digit 7 followed by three random digits |
 
 ## How It Works
 
-1. The program displays a 9-option menu.
-2. Each option calls a dedicated function: display, get details, update stock/price, check availability, check restock, simulate a sale, or process all daily sales.
-3. `processDailySales()` loops through every in-stock product, sells one unit via `simulateSale()`, and checks `checkRestockAlert()` for each.
-4. The loop continues until the user exits.
+- `generateCode()` builds each product code, and a loop assigns one to every product when the script loads.
+- Each operation (`getProductDetails()`, `updateStockLevel()`, `updatePrice()`, `isProductAvailable()`, `checkRestockAlert()`, `simulateSale()`) loops through the products and matches the input against `name` or `code`.
+- `simulateSale()` returns the sold product, or `null` when the product is out of stock or not found.
+- `processDailySales()` calls `simulateSale()` for each in-stock product and then `checkRestockAlert()` for each product that sold.
+- `main()` runs the menu with a `switch` statement and returns when option 9 is chosen.
 
-## Getting Started
+## Known Limitations
 
-**Prerequisites:** A modern web browser.
-
-```bash
-git clone <your-repo-url>
-cd "09 - Boutique Inventory Tracker"
-```
-
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run.
-
-## Example Output
-
-```
-Sold: Nike Air Max (remaining stock: 7)
-Restock alert: Rolex Watch (Code: 7284) is running low (stock: 3).
-```
-
-## Technical Highlights
-
-- Function composition: daily sales processing reuses the single-sale and restock-check functions
-- Dual-identifier lookup (name or code) applied consistently across every function
-- Generic object field printing via `Object.keys()` instead of hardcoded field lists
-
-## Limitations
-
-- No persistent storage - inventory resets each session
-- No purchase history or revenue tracking over time
-- Product codes can collide since they're randomly generated without uniqueness checks
-
-## Future Improvements
-
-- Add revenue tracking and daily sales reports
-- Guarantee unique product codes
-- Add a proper checkout flow with multiple items per transaction
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Function Composition
-- Working with Objects
-- Business Logic Modeling
+- Codes are random and not checked for uniqueness. The digits 0 to 8 are used, so the digit 9 never appears in the three random positions.
+- Two product names appear twice ("Tommy Hilfiger Jacket" and "Calvin Klein Jacket"), so operations that stop at the first match act on the first product with that name. Using the code avoids this.
+- Stock and price updates do not validate the entered number.
+- Lookups are case-sensitive.
+- The price update message uses a dollar sign, while the data has no currency.
+- Nothing is saved between runs.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).

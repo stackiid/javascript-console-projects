@@ -1,133 +1,160 @@
-# Book My Flight ✈️
+# Book My Flight
 
-A full console-based flight booking platform with guest browsing, user accounts, and an admin back office — backed by a runtime database that generates its own sample data on startup.
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E)
+![Runtime](https://img.shields.io/badge/runtime-browser%20console-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Overview
+BookMyFlight is a flight booking platform for the browser console with three kinds of users: guests, registered users, and administrators. It generates a database of flights at startup, then lets guests browse, users register and book, and administrators manage flights and review bookings. All data lives in memory.
 
-BookMyFlight simulates a complete airline booking system. Guests can search and view flights without an account; registered users can log in to book, view, and cancel flights; and admins can log in separately to add, edit, and remove flights and view all bookings across the system.
+## Table of Contents
 
-Rather than shipping with hundreds of lines of hard-coded flights and users, the app starts with empty databases and populates them itself: 60 flights and 20 users are generated from compact source data and pushed into the database in one pass the moment the program runs.
-
-## Why I Built This Project
-
-I built this as a capstone-style project to combine everything from smaller exercises - CRUD operations, authentication, validation, and menu systems - into one cohesive, multi-role application with realistic data relationships between users, flights, and bookings. I later refactored the data layer to replace a large block of hard-coded sample records with a small, reusable generation pipeline, as an exercise in separating configuration from runtime state.
+- [Features](#features)
+- [Roles and Menus](#roles-and-menus)
+- [Seed Data](#seed-data)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Running the Project](#running-the-project)
+- [Data Model](#data-model)
+- [How It Works](#how-it-works)
+- [Validation Rules](#validation-rules)
+- [JavaScript Concepts Used](#javascript-concepts-used)
+- [Known Limitations](#known-limitations)
+- [License](#license)
 
 ## Features
 
-- Guest flight search (by origin/destination) and full flight listing
-- User registration and login with password validation
-- Separate admin login and admin menu
-- View detailed flight information
-- Book a flight (with seat availability checks)
-- View and cancel a user's own bookings
-- View cancelled flight history
-- Delete a user account
-- Admin: add, edit, and remove flights
-- Admin: view all bookings across all users and view individual booking details
-- Self-seeding runtime database: 60 flights and 20 users generated from compact source data the moment the program runs
+- Sixty flights generated at startup from 50 international airports (one per country) and 20 Pakistani airports, with domestic, mixed, and international-only routes
+- Search flights by origin and destination city, and view all flights
+- User registration with unique username and email checks, and login
+- Flight booking with passport and identity details, optional extra baggage, and a travel type that sets the number of seats
+- Booking cancellation that restores the seats and records the cancellation
+- Viewing of a user's own bookings and cancelled bookings
+- Account deletion that removes the account and its active bookings
+- Administrator tools to add, remove, and edit flights, view all bookings with total revenue, and view individual booking details
+- Sequential, prefixed IDs for flights, users, bookings, and admins (for example `BMF-FLT-001`)
 
-## Technologies Used
+## Roles and Menus
 
-- JavaScript (Browser Console)
-- `prompt()` / `alert()` for I/O
-- `setTimeout()` / `setInterval()` for delayed and countdown-style messages
+The main menu accepts a number or a keyword (for example `guest`, `login`, `register`, `admin`, `delete`, `exit`).
 
-## JavaScript Concepts Demonstrated
+| Role | Menu options |
+| --- | --- |
+| Main menu | 1 Guest Mode, 2 User Login, 3 User Registration, 4 Admin Panel, 5 Delete Account, 6 Exit |
+| Guest | 1 Search Flights, 2 View All Flights, 3 Sign Up, 4 Back to Main Menu |
+| User | 1 Search Flights, 2 View All Flights, 3 View Flight Details, 4 Book Flight, 5 View My Bookings, 6 Cancel Booking, 7 View Cancelled Bookings, 8 Delete Account, 9 Logout |
+| Admin | 1 Add Flight, 2 Remove Flight, 3 Edit Flight, 4 View All Flights, 5 View All Bookings, 6 View Booking Details, 7 Logout |
 
-- Arrays of objects as in-memory databases (flights, users, bookings, admins) that start empty and are populated at runtime
-- Factory functions (`createFlight`, `createUser`, `createAdmin`) that build complete objects from compact source/configuration data
-- `Set`-based collision checking to guarantee unique flight route/date/time combinations
-- Sequential counter-based ID generation (`BMF-FLT-001`, `BMF-USR-001`, ...) to prevent duplicate IDs
-- Higher-order functions (`filter`, `map`, `reduce`, `find`) for lookups and calculations
-- Arrow functions and regular function declarations
-- `try` / `catch` error handling
-- Input validation (email format, password strength, date format)
-- Multi-role menu routing (guest / user / admin)
+## Seed Data
 
-## Learning Outcomes
+When the script starts, `initializeDatabase()` loads four administrator accounts, 20 default user accounts, and 60 generated flights, and prints the counts to the console. The account details are defined in `adminSeedConfig` and `defaultUserProfiles` near the top of `main.js`. They are demo values in the source code and are not repeated here.
 
-This project demonstrates:
+Each generated flight gets:
 
-- Designing relationships between multiple data collections (users, flights, bookings) that reference each other by ID
-- Separating small, hand-authored **source/configuration data** (airports, airlines, seed profiles) from **runtime databases** that are built dynamically from it
-- Using higher-order array methods (`filter`) to implement lookup functions like `findUserByEmail`
-- Structuring an application around distinct user roles, each with its own menu and permissions
-- Validating real-world input formats (email, password, date) before accepting it
+| Property | How it is generated |
+| --- | --- |
+| Route | Random airport pair, with the combination of Pakistan and international routes varying |
+| Airline | One of 15 airlines |
+| Date and time | A random date within the next 30 days and a random departure time |
+| Class | Economy, Business, or First Class |
+| Price | Economy $500 to $1,500, Business $1,500 to $8,000, First Class $8,000 to $20,000 |
+| Baggage allowance | 20 kg (Economy), 30 kg (Business), 40 kg (First Class) |
+| Seats | One of 120, 150, 180, 200, 250, or 300 |
+| Duration | 1 to 3.5 hours for domestic routes and 2 to 13.5 hours for others, with the arrival time calculated from it |
+
+Duplicate route, date, and time combinations are avoided for up to 50 attempts per flight. Flights are random on every run.
+
+## Tech Stack
+
+| Category | Details |
+| --- | --- |
+| Language | JavaScript |
+| Runtime | Browser developer console |
+| Input and output | `prompt()`, `alert()`, `console.log()`, `console.warn()`, `console.error()` |
+| Storage | In-memory arrays: `flightDatabase`, `userDatabase`, `adminDatabase`, `bookingDatabase`, `cancelledBookings` |
 
 ## Project Structure
 
-```
+```text
 11 - Book My Flight/
-│
-├── main.js
-└── README.md
+|-- main.js
+`-- README.md
 ```
 
-`main.js` is organized top to bottom as: ID generators → source data → random/data generators → factory functions → database arrays → database seeding → initialization → utility functions → guest/user/admin functions → menus → the `main()` entry point that routes to the correct menu.
+`main.js` is organized in labeled sections: ID generators, source data, random data generators, database arrays, seeding, utility functions, guest functions, registration and authentication, user functions, admin functions, menus, and the application start.
+
+## Running the Project
+
+1. Open any modern desktop browser.
+2. Open the developer tools console (press `F12`, then choose the Console tab).
+3. Copy the full contents of `main.js`, paste them into the console, and press Enter.
+4. Respond to the `prompt()` dialogs and read the `alert()` dialogs. Additional output is written to the console.
+
+Some browsers ask you to type `allow pasting` before the console accepts pasted code.
+
+The program calls `prompt()` and `alert()`, which are browser functions, so it is meant to run in a browser console rather than in Node.js. There is no package manifest, installation step, build step, or test suite in this project. All data lives in memory and is reset every time the script is run again.
+
+## Data Model
+
+| Record | Fields |
+| --- | --- |
+| Flight | `flightID`, `airline`, `origin`, `destination`, `departureDate`, `departureTime`, `arrivalTime`, `totalSeats`, `availableSeats`, `price` (text such as `$850`), `flightClass`, `baggageAllowance`, `travelDuration`, `departureAirport`, `arrivalAirport` |
+| User | `userID`, `username`, `password`, `email`, `name`, `dateOfBirth`, `gender`, `contact`, `registrationDate`, `registrationTime` |
+| Admin | `adminID`, `name`, `username`, `password`, `email`, `role` |
+| Booking | `bookingID`, `flightID`, `userID`, the user's fields, `passportNumber`, `identityNumber`, booking date and time, route and schedule details, `flightClass`, `baggageSpace`, `baggagePrice`, `totalPrice`, `numSeats` |
+| Cancelled booking | A booking plus `cancellationDate` and `cancellationTime` |
 
 ## How It Works
 
-1. On load, `initializeDatabase()` seeds the four admin accounts, 20 users, and 60 flights in a single synchronous pass, then logs a short summary to the console.
-2. `main()` presents a role selection: guest, user, or admin.
-3. Guests can search or view flights without logging in.
-4. Users register or log in, then access booking, cancellation, and account management.
-5. Admins log in separately and access flight and booking management tools.
-6. Every action validates its input and reports success or failure via `alert`/`console`.
+### Booking a flight
 
-## Getting Started
+1. The user must be logged in.
+2. The user enters an origin and a destination, and the program lists matching flights that still have seats.
+3. The user selects a flight number and enters a passport number and an identity number.
+4. The user may add extra baggage in kilograms, priced per kilogram by class: $35 for Economy, $75 for Business, and $115 for First Class.
+5. The travel type decides the seat count: `alone` is 1, `couple` is 2, and `family` asks for a number. Any other answer keeps one seat.
+6. The total is the seat price multiplied by the seat count, plus the baggage price. The user must type `yes` to confirm.
+7. The booking is stored, a booking ID is shown, and the flight's available seats are reduced.
 
-**Prerequisites:** A modern web browser.
+### Cancelling and deleting
 
-```bash
-git clone <your-repo-url>
-cd "11 - Book My Flight"
-```
+- Cancelling asks for a booking ID that belongs to the logged-in user, returns the seats to the flight, and adds the booking to the cancelled list. The refund message is informational, and no refund is calculated.
+- Deleting an account requires typing the username, removes the user, and removes that user's active bookings while restoring their seats.
 
-Open `main.js`, copy its contents into your browser's developer console, and press Enter to run. The sample database (admins, users, flights) is generated immediately, and the main menu appears right away.
+### Administrator actions
 
-## Example Output
+- Adding a flight asks for the airline, route, date, time, duration, seats, class, and baggage allowance. The price is generated from the class.
+- Removing a flight that has bookings requires typing `REMOVE`.
+- Editing a flight can change the origin, destination, price, total seats, date, or time. Changing the time recalculates the arrival time.
+- Viewing all bookings lists each booking and calculates total revenue with `reduce()`.
 
-```
-BookMyFlight initialization started...
-Admins: 4 loaded
-Users: 20/20 loaded
-Flights: 60/60 loaded
-Database initialization complete.
+## Validation Rules
 
-==================================================
-Flight BMF-FLT-042 booked successfully!
-Airline: Emirates | Route: Dubai → Islamabad
-==================================================
-```
+| Field | Rule |
+| --- | --- |
+| Username | At least 3 characters and not already taken |
+| Email | Contains `@` and `.`, is longer than 5 characters, and is not already registered |
+| Password | At least 6 characters |
+| Other registration fields | Optional, stored as `N/A` when left blank |
+| Baggage and seat counts | Must be positive numbers |
 
-## Technical Highlights
+## JavaScript Concepts Used
 
-- ID-referenced relationships between users, flights, and bookings instead of flat, disconnected data
-- Dynamic sample-data generation: 60 unique flights drawn from 50 international airports (one representative airport per country, Pakistan excluded) plus 20 Pakistani airports, and 20 default users built from compact seed profiles
-- Reusable validation helpers (`validateEmail`, `validatePassword`, `isValidDate`) applied consistently
-- Clear separation between guest, user, and admin capabilities within one codebase
+Arrays of objects, `filter()`, `find()`, `findIndex()`, `some()`, `reduce()`, `forEach()`, the spread operator, object destructuring, `Set`, template literals, `try`/`catch` with `throw`, `setTimeout()`, `setInterval()`, and arrow functions.
 
-## Limitations
+## Known Limitations
 
-- No persistent storage - all data (including the freshly-generated sample database) resets when the console session ends
-- No real payment processing
-- Admin seed credentials are hardcoded rather than securely managed
-
-## Future Improvements
-
-- Add persistent storage or a backend database
-- Add seat selection instead of a simple availability check
-- Add email confirmation simulation for bookings
-
-## Skills Demonstrated
-
-- JavaScript Fundamentals
-- Multi-Role Application Design
-- Data Relationships (Users/Flights/Bookings)
-- Input Validation
-- Function Decomposition
-- Dynamic Sample-Data Generation
+- Everything is stored in memory and is lost when the script is run again. Flights are regenerated at random every time.
+- Passwords are stored and compared as plain text. Booking records copy the logged-in user's fields, including the password field, although the console output does not print it.
+- The date of birth, the flight date, and the flight time are not checked for format when entered.
+- Dates are produced with `toLocaleDateString()`, so their format depends on the browser's locale.
+- The guest sign-up flow schedules a delayed return to the main menu with `setTimeout()`, but the menu loop is synchronous, so in practice the guest menu stays open until option 4 is chosen.
+- Removing a flight does not remove its existing bookings.
+- There is no real payment or refund processing.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+This project is part of a repository licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+Copyright (c) 2026 Ubaid Ahmad
+
+Return to the [repository index](../README.md).
